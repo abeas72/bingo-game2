@@ -9,6 +9,7 @@ use App\MyClasses\CardUtilities;
 use App\User;
 use App\ShadowCard;
 use App\Winner;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\DB;
 
@@ -49,30 +50,46 @@ class CardController extends Controller
         
         //$activeGame = Game::get()->where('active',1)[0];
         //$activeGame = Game::get()->where('active',1);
-        $activeGame = Game::firstOrFail()->where('active', TRUE)->get();
-        //dd($activeGame);
-        if($activeGame->isNotEmpty())
-        {
-            $activeGame = $activeGame[0];
-            $groupedCardsByUserID = Card::get()->where('game_id',$activeGame->id)->groupBy('user_id');
-            $winners = Winner::get()->where('game_id',$activeGame->id);
-           // dd("Not Empty");
-        }
+
+
+        // $activeGame = Game::firstOrFail()->where('active', TRUE)->get();
+        
+        // if($activeGame->isNotEmpty())
+        // {
+        //     $activeGame = $activeGame[0];
+        //     $groupedCardsByUserID = Card::get()->where('game_id',$activeGame->id)->groupBy('user_id');
+        //     $winners = Winner::get()->where('game_id',$activeGame->id);
            
-        else 
-        {
-            $groupedCardsByUserID = collect([]);
-            $winners = collect([]);
-            //dd("Empty");
-        }
+        // }
            
+        // else 
+        // {
+        //     $groupedCardsByUserID = collect([]);
+        //     $winners = collect([]);
+            
+        // }
+        // return view('cards.index', compact('groupedCardsByUserID','winners','activeGame'));
  
                 
         //$groupedCardsByUserID = Card::get()->where('game_id',$activeGame->id)->groupBy('user_id');
         //dd($groupedCardsByUserID);
         //$winners = Winner::get()->where('game_id',$activeGame->id);
 
-        return view('cards.index', compact('groupedCardsByUserID','winners','activeGame'));
+        try {
+            $activeGame = Game::firstOrFail()->where('active', TRUE)->get();
+
+            $activeGame = $activeGame[0];
+            $groupedCardsByUserID = Card::get()->where('game_id',$activeGame->id)->groupBy('user_id');
+            $winners = Winner::get()->where('game_id',$activeGame->id);
+            return view('cards.index', compact('groupedCardsByUserID','winners','activeGame'));
+        } catch (ModelNotFoundException $ex) {
+            //dd($ex);
+            $groupedCardsByUserID = collect([]);
+            $winners = collect([]);
+            return view('cards.index', compact('groupedCardsByUserID','winners','activeGame'));
+            //dd("No Active Game Found");
+        }
+
     }
 
     /**

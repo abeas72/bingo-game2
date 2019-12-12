@@ -120,7 +120,7 @@ class GameController extends Controller
     }
     public function addCardsPlayers()
     {
-        $gameFile = 'LaloNumbers12-04-19.csv';
+        $gameFile = 'LaloNumbers12-04-19.csv';                     
         CardUtilities::createUsersAndGameCardsFromFile($gameFile);
     }
 }
