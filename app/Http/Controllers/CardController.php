@@ -203,7 +203,7 @@ class CardController extends Controller
 
     public function getCards($whatCards)
     {
-        // dd($who);
+        
         //dd(card);
         //$allMyCards = Card::where('user_id',1)->get();
         //$allMyCards = Card::all()->where('id',2);
