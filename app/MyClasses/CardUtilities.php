@@ -121,17 +121,13 @@ class CardUtilities{
                 ['card_id' => $oneCurrentGameCardCollection->id],
                 ['user_id' => $oneCurrentGameCardCollection->user->id, 'game_id' =>  $oneCurrentGameCardCollection->game_id]
             );
-
-            //Close current game because there is winner or winners
-            //$oneCurrentGameCardCollection->game->closed
-             $currentGame = Game::find($oneCurrentGameCardCollection->game->id);
-
-             $currentGame->closed = TRUE;
-
-             $currentGame->save();
+            
+            //close Game cause somebody Won already.
+            $currentGame = Game::find($oneCurrentGameCardCollection->game->id);
+            $currentGame->closed = TRUE;
+            $currentGame->save();
         }
     }
-
 
     public static function checkAllCurrentGameCardsAgainstOneCurrentGameDrawnNumbers($allCurrentGameCardCollection,$oneCurrentGameDrawnNumbersCollection)
     {
