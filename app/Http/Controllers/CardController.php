@@ -80,13 +80,18 @@ class CardController extends Controller
 
             $activeGame = $activeGame[0];
             $groupedCardsByUserID = Card::get()->where('game_id',$activeGame->id)->groupBy('user_id');
+            $loosersG = Card::get()->where('game_id',$activeGame->id)->where('hit_count',0)->groupBy('user_id');
+            //$loosers = $groupedCardsByUserID->where('hit_count',0);
+            //dd($loosers);
+            //$loosers = collect([]);
             $winners = Winner::get()->where('game_id',$activeGame->id);
-            return view('cards.index', compact('groupedCardsByUserID','winners','activeGame'));
+            return view('cards.index', compact('groupedCardsByUserID','winners','activeGame','loosersG'));
         } catch (ModelNotFoundException $ex) {
             //dd($ex);
             $groupedCardsByUserID = collect([]);
             $winners = collect([]);
-            return view('cards.index', compact('groupedCardsByUserID','winners','activeGame'));
+            $loosersG = collect([]);
+            return view('cards.index', compact('groupedCardsByUserID','winners','activeGame','loosersG'));
             //dd("No Active Game Found");
         }
 

@@ -22,7 +22,7 @@
     @else
         <table class="table table-bordered">
             <tr align="center">
-                <td colspan="4">
+                <td colspan="2">
                         
                 <span>Winner/s for this game : {{date("M jS, Y", strtotime($activeGame->start_date))}} to {{($activeGame->end_date ? (date("M jS, Y", strtotime($activeGame->end_date))):'Still Going')}}</span><br>
                     @if ($winners->isNotEmpty())
@@ -34,6 +34,21 @@
                     @else
                     <span>***No Winners Yet***</span><br>
                     @endif
+                </td>
+                <td colspan="2">
+                        
+                    <span>Looser/s for this game : {{date("M jS, Y", strtotime($activeGame->start_date))}} to {{($activeGame->end_date ? (date("M jS, Y", strtotime($activeGame->end_date))):'Still Going')}}</span><br>
+                        @if ($loosersG->isNotEmpty())
+                            <span class="bg-info text-white">
+                                @foreach ($loosersG as $loosers)
+                                    @foreach ($loosers as $looser)
+                                    <a class="text-white" href="#CardID{{$looser->id}}">{{$looser->user->name}} with Card id: {{$looser->id}}</a><br>
+                                    @endforeach
+                                @endforeach
+                            </span>
+                        @else
+                            <span>***No Looser/s Yet***</span><br>
+                        @endif
                 </td>
             </tr>
             @foreach ($groupedCardsByUserID as $cards)
