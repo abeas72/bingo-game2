@@ -97,6 +97,7 @@ class GameController extends Controller
             'start_date' => 'required|date',
             'active' => 'required|integer',
             'money_pot' => 'required|integer',
+            'closed' => 'required',
         ]);
    
         $game->update($request->all());
@@ -120,7 +121,7 @@ class GameController extends Controller
     }
     public function addCardsPlayers()
     {
-        $gameFile = 'LaloNumbers12-04-19.csv';                     
+        $gameFile = 'LaloBingo.csv';                     
         CardUtilities::createUsersAndGameCardsFromFile($gameFile);
     }
 }

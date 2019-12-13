@@ -29,6 +29,10 @@
             <label for="money_pot">Money Pot:</label>
             <input type="text" class="form-control" name="money_pot" value="{{ old('money_pot' , $game->money_pot) }}"/>
         </div>
+        <div class="form-group w-25">
+            <label for="closed">Closed:</label>
+            <input type="text" class="form-control" name="closed" value="{{ old('closed' , $game->closed) }}"/>
+        </div>
         <button type="submit" class="btn btn-primary">Update Game</button>
     </form>
 @endsection

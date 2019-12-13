@@ -9,7 +9,7 @@ class Game extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'id', 'card_id','start_date','end_date','active','money_pot',
+        'id', 'card_id','start_date','end_date','active','money_pot','closed',
     ];
          
     public function cards()

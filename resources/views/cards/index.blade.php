@@ -38,13 +38,13 @@
                 <td colspan="2">
                         
                     <span>Looser/s for this game : {{date("M jS, Y", strtotime($activeGame->start_date))}} to {{($activeGame->end_date ? (date("M jS, Y", strtotime($activeGame->end_date))):'Still Going')}}</span><br>
-                        @if ($loosersG->isNotEmpty())
+                        @if ($loosers->isNotEmpty())
                             <span class="bg-info text-white">
-                                @foreach ($loosersG as $loosers)
+                                
                                     @foreach ($loosers as $looser)
                                     <a class="text-white" href="#CardID{{$looser->id}}">{{$looser->user->name}} with Card id: {{$looser->id}}</a><br>
                                     @endforeach
-                                @endforeach
+                                
                             </span>
                         @else
                             <span>***No Looser/s Yet***</span><br>

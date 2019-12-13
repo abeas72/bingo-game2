@@ -219,33 +219,40 @@ class CardUtilities{
         //$activeGame = Game::get()->where('active',1);
         try {
             $activeGame = Game::firstOrFail()->where('active', TRUE)->get();
-            //dd($activeGame);
-            foreach ($playersNameAndNumbersArray as $playerNameAndNumbersArray) 
+            //dd($activeGame[0]);
+            if($activeGame->isNotEmpty())
             {
-                //dd($playerNameAndNumbersArray);
-                $splitPlayerNameAndNumbersArray = explode(",",$playerNameAndNumbersArray);
-                //dd($splitPlayerNameAndNumbersArray);
-                $createdEmailSubAddress = str_replace(' ','_', preg_replace( '/[^a-z0-9 ]/i', '', $splitPlayerNameAndNumbersArray[0]))."@bingo.com";
-                $user = User::firstOrCreate(['name' => $splitPlayerNameAndNumbersArray[0]],
-                                            ['email'    => $createdEmailSubAddress, 
-                                             'password' => $createdEmailSubAddress,
+                foreach ($playersNameAndNumbersArray as $playerNameAndNumbersArray) 
+                {
+                    //dd($playerNameAndNumbersArray);
+                    $splitPlayerNameAndNumbersArray = explode(",",$playerNameAndNumbersArray);
+                    //dd($splitPlayerNameAndNumbersArray);
+                    $createdEmailSubAddress = str_replace(' ','_', preg_replace( '/[^a-z0-9 ]/i', '', $splitPlayerNameAndNumbersArray[0]))."@bingo.com";
+                    $user = User::firstOrCreate(['name' => $splitPlayerNameAndNumbersArray[0]],
+                                                ['email'    => $createdEmailSubAddress, 
+                                                'password' => $createdEmailSubAddress,
+                                                ]);
+                    //dd($user);
+                    $gameCard = Card::create(['user_id'=>$user->id,
+                                            'game_id'=>$activeGame[0]->id,
+                                            'number1'=>$splitPlayerNameAndNumbersArray[1],
+                                            'number2'=>$splitPlayerNameAndNumbersArray[2],
+                                            'number3'=>$splitPlayerNameAndNumbersArray[3],
+                                            'number4'=>$splitPlayerNameAndNumbersArray[4],
+                                            'number5'=>$splitPlayerNameAndNumbersArray[5],
+                                            'number6'=>str_replace(array("\n", "\r"), '',$splitPlayerNameAndNumbersArray[6]),
+                                            'active'=>TRUE,
+                                            'winner'=>FALSE,
                                             ]);
-                //dd($user);
-                $gameCard = Card::create(['user_id'=>$user->id,
-                                          'game_id'=>$activeGame[0]->id,
-                                          'number1'=>$splitPlayerNameAndNumbersArray[1],
-                                          'number2'=>$splitPlayerNameAndNumbersArray[2],
-                                          'number3'=>$splitPlayerNameAndNumbersArray[3],
-                                          'number4'=>$splitPlayerNameAndNumbersArray[4],
-                                          'number5'=>$splitPlayerNameAndNumbersArray[5],
-                                          'number6'=>str_replace(array("\n", "\r"), '',$splitPlayerNameAndNumbersArray[6]),
-                                          'active'=>TRUE,
-                                          'winner'=>FALSE,
-                                        ]);
-                $shadowcard = new ShadowCard;
-                $shadowcard->card_id = $gameCard->id;
-                $gameCard->shadowcard()->save($shadowcard);
-            }            
+                    $shadowcard = new ShadowCard;
+                    $shadowcard->card_id = $gameCard->id;
+                    $gameCard->shadowcard()->save($shadowcard);
+                }   
+            }
+            else
+            { 
+                dd("Emty");
+            }     
           } catch (ModelNotFoundException $ex) {
             
             dd("No Active Game Found");
