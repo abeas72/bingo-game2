@@ -124,11 +124,11 @@ class CardUtilities{
 
             //Close current game because there is winner or winners
             //$oneCurrentGameCardCollection->game->closed
-            // $currentGame = Game::find($oneCurrentGameCardCollection->game->game_id);
+             $currentGame = Game::find($oneCurrentGameCardCollection->game->id);
 
-            // $flight->name = 'New Flight Name';
+             $currentGame->closed = TRUE;
 
-            // $flight->save();
+             $currentGame->save();
         }
     }
 

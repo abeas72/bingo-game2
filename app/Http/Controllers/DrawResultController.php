@@ -167,6 +167,7 @@ class DrawResultController extends Controller
      */
     public function destroy(DrawResult $drawresult)
     {   
+        //NEED TO CLEAR Winners 12-12-19 - Reset Game Close attribute to False
         $drawresult->delete();
 
         $gameID=$drawresult->game_id;

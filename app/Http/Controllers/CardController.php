@@ -323,6 +323,11 @@ class CardController extends Controller
             {
                 $groupedCardsByUserID = collect([]);
             }
+            elseif(($request['game_id']!=null) && ($request['user_id']!=null) && ($request['hit_count']!=null))
+            {
+                $groupedCardsByUserID = Card::get()->where('game_id',$request['game_id'])->where('user_id',$request['user_id'])->where('hit_count',$request['hit_count'])->groupBy('game_id');
+                
+            }
 
             // elseif(($request['game_id']==null)  && ($request['hitCount']!=null))
             // {
