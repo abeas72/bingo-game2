@@ -41,7 +41,7 @@
                         @if ($loosers->isNotEmpty())
                             <span class="bg-info text-white">
                                 @foreach ($loosers as $looser)
-                                <a class="text-white" href="#CardID{{$looser->id}}">{{$looser->user->name}} with Card id: {{$looser->id}}</a><br>
+                                    <a class="text-white" href="#CardID{{$looser->id}}">{{$looser->user->name}} with Card id: {{$looser->id}}</a><br>
                                 @endforeach
                             </span>
                         @else
